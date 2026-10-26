@@ -1,0 +1,663 @@
+<title>你家有几口人？</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;700&display=swap">
+<style>
+/* Layout: a mobile-first study booklet; sticky section tabs, hanzi set in 田字格 practice cells, exercises check themselves. */
+:root{
+  --paper:#f4f7f5; --surface:#ffffff; --ink:#18221e; --muted:#5a6a63; --line:#d6e0da;
+  --jade:#16765b; --jade-soft:#e1f0ea; --seal:#bf3a29; --seal-soft:#fae8e4; --grid:#e5b4ab;
+  --ok:#17784a; --ok-soft:#e2f3e9; --bad:#bf3a29; --bad-soft:#fae8e4;
+  --f-han:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+  --f-body:"Be Vietnam Pro","Segoe UI",system-ui,sans-serif;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#111714; --surface:#19211d; --ink:#e6eee9; --muted:#9bada4; --line:#2b3832;
+  --jade:#52c49f; --jade-soft:#16302a; --seal:#ef7d6b; --seal-soft:#3a201c; --grid:#62413b;
+  --ok:#5fcf94; --ok-soft:#163323; --bad:#ef7d6b; --bad-soft:#3a201c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#111714; --surface:#19211d; --ink:#e6eee9; --muted:#9bada4; --line:#2b3832;
+  --jade:#52c49f; --jade-soft:#16302a; --seal:#ef7d6b; --seal-soft:#3a201c; --grid:#62413b;
+  --ok:#5fcf94; --ok-soft:#163323; --bad:#ef7d6b; --bad-soft:#3a201c; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.zh,.han{font-family:var(--f-han)}
+h1,h2,h3{text-wrap:balance;line-height:1.25;margin:0}
+h2{font-size:1.6rem;font-weight:700}
+h3{font-size:1.1rem;font-weight:600}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,a:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--jade);outline-offset:2px}
+
+/* hero */
+.hero{padding-block:28px 24px}
+.back{display:inline-block;margin-bottom:10px;color:var(--jade);text-decoration:none;font-weight:500;font-size:.92rem}
+.back:hover{text-decoration:underline}
+.hero .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center}
+.eyebrow{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--seal);font-weight:600}
+.hero h1{font-family:var(--f-han);font-size:clamp(2.4rem,7vw,3.8rem);font-weight:700;margin-top:6px;letter-spacing:.02em}
+.hero .py-big{font-size:1.15rem;color:var(--muted);margin-top:4px}
+.hero .lead{margin-top:14px;max-width:46ch}
+.hero img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--r);display:block}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:.85rem}
+
+/* nav */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-block:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs .wrap::-webkit-scrollbar{display:none}
+nav.tabs a{flex:none;padding:12px 12px;color:var(--muted);text-decoration:none;font-weight:500;font-size:.95rem;border-bottom:3px solid transparent}
+nav.tabs a.on{color:var(--jade);border-bottom-color:var(--jade)}
+
+section{padding-block:40px 8px;scroll-margin-top:56px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;margin-bottom:18px}
+.sec-head .zh{color:var(--seal);font-size:1.1rem}
+.sub{color:var(--muted);font-size:.95rem}
+
+/* objectives */
+.goals{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.goal{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.goal h3{color:var(--jade);margin-bottom:6px}
+.goal ul{margin:0;padding-left:18px}
+details.plan{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+details.plan summary{padding:14px 16px;font-weight:600;cursor:pointer}
+.steps{display:grid;gap:0;padding:0 16px 12px;margin:0;list-style:none}
+.steps li{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.steps .t{font-variant-numeric:tabular-nums;color:var(--seal);font-weight:600}
+
+/* vocab */
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+.filter{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:.9rem}
+.filter[aria-pressed="true"]{background:var(--jade);border-color:var(--jade);color:var(--surface)}
+.switch{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--muted)}
+.switch input{width:18px;height:18px;accent-color:var(--jade)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card-top{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+.cells{display:flex;gap:4px;background:none;border:0;padding:0}
+.cell{width:58px;height:58px;display:grid;place-items:center;font-family:var(--f-han);font-size:38px;font-weight:500;border:1.5px solid var(--grid);
+  background:
+   linear-gradient(var(--grid),var(--grid)) center/100% 1px no-repeat,
+   linear-gradient(var(--grid),var(--grid)) center/1px 100% no-repeat,
+   linear-gradient(45deg,transparent calc(50% - .6px),var(--grid) 50%,transparent calc(50% + .6px)),
+   linear-gradient(-45deg,transparent calc(50% - .6px),var(--grid) 50%,transparent calc(50% + .6px));
+  background-color:var(--surface)}
+.thumb{width:76px;height:76px;object-fit:cover;border-radius:8px;flex:none}
+.py{font-size:1.05rem;font-weight:600;color:var(--jade)}
+.pos{font-size:.75rem;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.mean{font-weight:500}
+.ex{font-size:.9rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+.ex .zh{color:var(--ink);font-size:1rem}
+.actions{display:flex;gap:8px;margin-top:auto;padding-top:4px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 12px;font-size:.9rem;font-weight:500}
+.btn:hover{border-color:var(--jade);color:var(--jade)}
+.btn.primary{background:var(--jade);border-color:var(--jade);color:var(--surface)}
+.btn.primary:hover{color:var(--surface);filter:brightness(1.08)}
+.btn svg{width:16px;height:16px;flex:none}
+.strokes{display:flex;flex-wrap:wrap;gap:8px;background:#fff;border-radius:8px;padding:8px}
+.strokes img{width:110px;height:110px}
+.hide-mean .card:not(.shown) .py,.hide-mean .card:not(.shown) .mean,.hide-mean .card:not(.shown) .ex{filter:blur(6px);user-select:none}
+.hide-mean .card:not(.shown){cursor:pointer}
+
+/* grammar */
+.gram{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.g{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0}
+.g h3{display:flex;gap:10px;align-items:baseline}
+.g h3 .zh{color:var(--seal);font-size:1.25rem}
+.pattern{margin-top:10px;background:var(--jade-soft);border-radius:8px;padding:10px 12px;font-family:var(--f-han);font-size:1.05rem;overflow-x:auto}
+.g ul{margin:10px 0 0;padding-left:0;list-style:none;display:grid;gap:8px}
+.g li .zh{font-size:1.05rem}
+.g li .vi{color:var(--muted);font-size:.9rem;display:block}
+.note{margin-top:10px;font-size:.9rem;color:var(--muted)}
+.note b{color:var(--seal)}
+.say{border:0;background:none;padding:0 4px;color:var(--jade);vertical-align:-3px}
+.say svg{width:18px;height:18px}
+
+/* dialogue */
+.dlg{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:8px 16px}
+.line{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:start;padding:10px 0;border-top:1px solid var(--line)}
+.line:first-child{border-top:0}
+.who{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem;background:var(--jade-soft);color:var(--jade)}
+.line.b .who{background:var(--seal-soft);color:var(--seal)}
+.line .zh{font-size:1.15rem}
+.line .p{color:var(--jade);font-size:.92rem}
+.line .vi{color:var(--muted);font-size:.9rem}
+.line.now{background:var(--jade-soft);margin-inline:-16px;padding-inline:16px}
+
+/* exercises */
+.ex-block{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:18px}
+.ex-block>header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;align-items:baseline;margin-bottom:12px}
+.score{font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted)}
+.score.full{color:var(--ok)}
+ol.qs{margin:0;padding-left:0;list-style:none;display:grid;gap:10px;counter-reset:q}
+ol.qs>li{counter-increment:q;display:grid;grid-template-columns:28px 1fr;gap:8px;padding:10px;border-radius:10px;border:1px solid transparent}
+ol.qs>li::before{content:counter(q) ".";font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:4px}
+ol.qs>li.ok{background:var(--ok-soft);border-color:var(--ok)}
+ol.qs>li.bad{background:var(--bad-soft);border-color:var(--bad)}
+.sent{font-family:var(--f-han);font-size:1.15rem;line-height:2.1;white-space:pre-line}
+.slot{font-family:var(--f-body);font-size:.85rem;font-weight:700;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper);margin:0 2px;vertical-align:2px}
+.slot[aria-pressed="true"]{background:var(--jade);border-color:var(--jade);color:var(--surface)}
+.word{color:var(--seal);font-family:var(--f-han);font-weight:700;margin-left:6px}
+.fb{grid-column:2;font-size:.95rem}
+.fb .zh{font-size:1.05rem}
+.fb mark{background:none;color:var(--ok);font-weight:700}
+select.blank{font-family:var(--f-han);font-size:1.05rem;padding:2px 6px;border:1.5px solid var(--line);border-bottom-color:var(--jade);border-radius:6px;background:var(--paper);color:var(--ink);margin:0 4px;min-width:72px}
+.bank{font-family:var(--f-han)}
+.ansline{min-height:46px;border-bottom:2px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;padding:6px 0;margin-bottom:8px}
+.ansline:empty::before{content:"Chạm vào các từ bên dưới theo đúng thứ tự";font-family:var(--f-body);color:var(--muted);font-size:.9rem;align-self:center}
+.bank{display:flex;flex-wrap:wrap;gap:6px}
+.tok{font-family:var(--f-han);font-size:1.1rem;border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:4px 12px}
+.ansline .tok{background:var(--jade-soft);border-color:var(--jade)}
+.tok:disabled{opacity:.25;cursor:default}
+.passage{font-family:var(--f-han);font-size:1.1rem;background:var(--paper);border-radius:10px;padding:12px 14px;margin-bottom:12px;line-height:1.9}
+.q4{display:grid;gap:8px;margin-bottom:14px}
+.q4 .q{font-family:var(--f-han);font-size:1.08rem}
+textarea{font-family:var(--f-han);font-size:1.05rem;width:100%;min-height:46px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--paper);color:var(--ink);resize:vertical}
+.reveal{font-size:.95rem;color:var(--ok);background:var(--ok-soft);border-radius:8px;padding:8px 12px}
+.reveal .zh{font-size:1.05rem}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px}
+.opt{display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-family:var(--f-han);font-size:1.05rem;background:var(--paper);cursor:pointer}
+.opt input{accent-color:var(--jade)}
+.ex-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.part{font-weight:600;margin:16px 0 8px;font-family:var(--f-han);color:var(--seal);letter-spacing:.04em}
+
+footer{padding-block:32px 40px;color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;gap:20px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:24px}
+footer img.qr{width:150px;height:150px;background:#fff;padding:8px;border-radius:10px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-size:.92rem;z-index:20;max-width:calc(100% - 32px)}
+
+@media (max-width:760px){
+  .hero .wrap{grid-template-columns:1fr;gap:16px}
+  .hero figure{order:-1}
+  .goals,.gram{grid-template-columns:1fr}
+  .opts{grid-template-columns:repeat(2,1fr)}
+  .switch{margin-left:0}
+  h2{font-size:1.35rem}
+}
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      __BACK__<div class="eyebrow">Bài 10 · Tiếng Trung HSK 1</div>
+      <h1>你家有几口人？</h1>
+      <div class="py-big">Nǐ jiā yǒu jǐ kǒu rén? · Nhà bạn có mấy người?</div>
+      <p class="lead">Học cách giới thiệu gia đình: có bao nhiêu người, mỗi người bao nhiêu tuổi và làm nghề gì. Chạm vào chữ Hán hoặc nút loa để nghe phát âm.</p>
+      <div class="meta"><span class="chip">29 từ mới</span><span class="chip">6 điểm ngữ pháp</span><span class="chip">5 bài tập tự chấm</span></div>
+    </div>
+    <figure style="margin:0"><img src="__IMG_hero__" alt="Một gia đình nắm tay nhau trên bãi biển lúc hoàng hôn"></figure>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Các phần của bài học">
+  <div class="wrap">
+    <a href="#muc-tieu">Mục tiêu</a>
+    <a href="#tu-moi">Từ mới</a>
+    <a href="#ngu-phap">Ngữ pháp</a>
+    <a href="#hoi-thoai">Hội thoại</a>
+    <a href="#bai-tap">Bài tập</a>
+  </div>
+</nav>
+
+<main>
+<section id="muc-tieu"><div class="wrap">
+  <div class="sec-head"><h2>Mục tiêu bài học</h2><span class="zh">学习目标</span></div>
+  <div class="goals">
+    <div class="goal"><h3>Kiến thức</h3><ul>
+      <li>Từ vựng về thành viên gia đình, nghề nghiệp, tuổi.</li>
+      <li>Lượng từ 口, 只; đại từ 谁, hậu tố 们.</li>
+      <li>Câu hỏi với 几, 多大, 什么工作; liên từ 和.</li></ul></div>
+    <div class="goal"><h3>Năng lực</h3><ul>
+      <li>Hỏi và trả lời về số người trong gia đình.</li>
+      <li>Hỏi tuổi, hỏi nghề nghiệp của người khác.</li>
+      <li>Giới thiệu gia đình qua một bức ảnh (5–6 câu).</li></ul></div>
+    <div class="goal"><h3>Phẩm chất</h3><ul>
+      <li>Yêu thương, trân trọng gia đình.</li>
+      <li>Mạnh dạn giao tiếp, hợp tác khi luyện tập theo cặp.</li></ul></div>
+  </div>
+  <details class="plan">
+    <summary>Tiến trình dạy học (dành cho giáo viên, 55 phút)</summary>
+    <ol class="steps">
+      <li><span class="t">5′</span><div><b>Khởi động.</b> Chiếu ảnh gia đình, hỏi 这是谁？ để học sinh đoán từ.</div></li>
+      <li><span class="t">15′</span><div><b>Từ mới.</b> Dạy theo 4 nhóm. Học sinh nghe phát âm, xem cách viết, sau đó bật “Ẩn nghĩa” để tự kiểm tra.</div></li>
+      <li><span class="t">10′</span><div><b>Ngữ pháp.</b> Bốn mẫu câu hỏi chính: 几口人, 多大, 做什么工作, 谁. Luyện thay thế.</div></li>
+      <li><span class="t">5′</span><div><b>Hội thoại.</b> Nghe mẫu, luyện theo cặp, thay bằng thông tin gia đình mình.</div></li>
+      <li><span class="t">15′</span><div><b>Luyện tập.</b> Học sinh quét mã QR, làm Bài 1–5 trên điện thoại, báo điểm.</div></li>
+      <li><span class="t">5′</span><div><b>Củng cố và giao bài.</b> Về nhà viết 5 câu giới thiệu gia đình kèm một bức ảnh.</div></li>
+    </ol>
+  </details>
+</div></section>
+
+<section id="tu-moi"><div class="wrap">
+  <div class="sec-head"><h2>Từ mới</h2><span class="zh">生词</span></div>
+  <div class="toolbar" role="group" aria-label="Lọc từ mới">
+    <button class="filter" data-g="all" aria-pressed="true">Tất cả</button>
+    <button class="filter" data-g="fam" aria-pressed="false">Gia đình</button>
+    <button class="filter" data-g="job" aria-pressed="false">Nghề nghiệp</button>
+    <button class="filter" data-g="age" aria-pressed="false">Tuổi &amp; năm</button>
+    <button class="filter" data-g="oth" aria-pressed="false">Từ khác</button>
+    <label class="switch"><input type="checkbox" id="hideMean"> Ẩn nghĩa để tự kiểm tra</label>
+  </div>
+  <div class="cards" id="cards"></div>
+</div></section>
+
+<section id="ngu-phap"><div class="wrap">
+  <div class="sec-head"><h2>Ngữ pháp và mẫu câu</h2><span class="zh">语法</span></div>
+  <div class="gram" id="gram"></div>
+</div></section>
+
+<section id="hoi-thoai"><div class="wrap">
+  <div class="sec-head"><h2>Hội thoại luyện tập</h2><button class="btn primary" id="playAll"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Nghe cả bài</button></div>
+  <p class="sub" style="margin-bottom:12px">Hai bạn xem ảnh gia đình của B. Luyện theo cặp, sau đó thay bằng thông tin gia đình em.</p>
+  <div class="dlg" id="dlg"></div>
+</div></section>
+
+<section id="bai-tap"><div class="wrap">
+  <div class="sec-head"><h2>Bài tập</h2><span class="zh">练习</span></div>
+
+  <div class="ex-block" id="ex1">
+    <header><h3>Bài 1. Chọn vị trí đúng cho từ trong ngoặc</h3><span class="score"></span></header>
+    <ol class="qs"></ol>
+    <div class="ex-actions"><button class="btn primary chk">Kiểm tra</button><button class="btn rst">Làm lại</button></div>
+  </div>
+
+  <div class="ex-block" id="ex2">
+    <header><h3>Bài 2. Chọn từ điền vào chỗ trống</h3><span class="score"></span></header>
+    <div class="part">什么 · 哪 · 哪儿 · 怎么 · 怎么样 · 几 · 多 · 还是 · 多少 · 为什么</div>
+    <ol class="qs" data-part="a"></ol>
+    <div class="part">了 · 吗 · 呢 · 吧</div>
+    <ol class="qs" data-part="b"></ol>
+    <div class="ex-actions"><button class="btn primary chk">Kiểm tra</button><button class="btn rst">Làm lại</button></div>
+  </div>
+
+  <div class="ex-block" id="ex3">
+    <header><h3>Bài 3. Sắp xếp thành câu hoàn chỉnh</h3><span class="score"></span></header>
+    <ol class="qs"></ol>
+    <div class="ex-actions"><button class="btn primary chk">Kiểm tra</button><button class="btn rst">Làm lại</button></div>
+  </div>
+
+  <div class="ex-block" id="ex4">
+    <header><h3>Bài 4. Đọc và trả lời câu hỏi</h3></header>
+    <div class="body"></div>
+  </div>
+
+  <div class="ex-block" id="ex5">
+    <header><h3>Bài 5. Đọc và chọn đáp án đúng</h3><span class="score"></span></header>
+    <div class="passage"></div>
+    <ol class="qs"></ol>
+    <div class="ex-actions"><button class="btn primary chk">Kiểm tra</button><button class="btn rst">Làm lại</button></div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  __QR_BLOCK__
+  <div><b style="color:var(--ink)">Bài 10 · 你家有几口人？</b><br>Phát âm dùng giọng đọc tiếng Trung có sẵn trên thiết bị. Nếu không nghe được, hãy kiểm tra âm lượng hoặc cài giọng tiếng Trung (zh-CN) trong cài đặt máy.</div>
+</div></footer>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const IMG = __IMG_JSON__;
+const SPK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>';
+const PEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toast.h); toast.h = setTimeout(() => t.hidden = true, 3200);
+}
+
+/* ---------- speech ---------- */
+let zhVoice = null;
+function pickVoice() {
+  if (!('speechSynthesis' in window)) return;
+  const vs = speechSynthesis.getVoices();
+  zhVoice = vs.find(v => /zh[-_]CN/i.test(v.lang)) || vs.find(v => /^zh/i.test(v.lang)) || null;
+}
+if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function utter(text, onstart, onend) {
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-CN'; u.rate = 0.8;
+  if (zhVoice) u.voice = zhVoice;
+  if (onstart) u.onstart = onstart;
+  if (onend) u.onend = u.onerror = onend;
+  return u;
+}
+function speak(text) {
+  if (!('speechSynthesis' in window)) { toast('Thiết bị này không hỗ trợ đọc tiếng Trung.'); return; }
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utter(text));
+  if (!zhVoice) setTimeout(() => { pickVoice(); if (!zhVoice) toast('Chưa thấy giọng tiếng Trung trên máy, phát âm có thể không chuẩn.'); }, 400);
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-say]');
+  if (b) { e.stopPropagation(); speak(b.dataset.say); }
+});
+const sayBtn = t => `<button class="say" data-say="${esc(t)}" aria-label="Nghe">${SPK}</button>`;
+
+/* ---------- vocabulary ---------- */
+const V = [
+  {w:'爸爸',p:'bàba',t:'danh từ',m:'bố, ba',g:'fam',img:'dad',ex:['我爸爸是老师。','Wǒ bàba shì lǎoshī.','Bố tôi là giáo viên.']},
+  {w:'妈妈',p:'māma',t:'danh từ',m:'mẹ, má',g:'fam',img:'mom',ex:['我妈妈是医生。','Wǒ māma shì yīshēng.','Mẹ tôi là bác sĩ.']},
+  {w:'哥哥',p:'gēge',t:'danh từ',m:'anh trai',g:'fam',img:'gege',ex:['我哥哥今年二十七岁。','Wǒ gēge jīnnián èrshíqī suì.','Anh trai tôi năm nay 27 tuổi.']},
+  {w:'姐姐',p:'jiějie',t:'danh từ',m:'chị gái',g:'fam',img:'jiejie',ex:['我姐姐是大学生。','Wǒ jiějie shì dàxuéshēng.','Chị gái tôi là sinh viên.']},
+  {w:'弟弟',p:'dìdi',t:'danh từ',m:'em trai',g:'fam',img:'didi',ex:['你弟弟多大了？','Nǐ dìdi duō dà le?','Em trai bạn bao nhiêu tuổi rồi?']},
+  {w:'妹妹',p:'mèimei',t:'danh từ',m:'em gái',g:'fam',img:'meimei',ex:['我妹妹是中学生。','Wǒ mèimei shì zhōngxuéshēng.','Em gái tôi là học sinh trung học.']},
+  {w:'家',p:'jiā',t:'danh từ',m:'nhà, gia đình',g:'fam',img:'jia',ex:['你家有几口人？','Nǐ jiā yǒu jǐ kǒu rén?','Nhà bạn có mấy người?']},
+  {w:'人',p:'rén',t:'danh từ',m:'người',g:'fam',ex:['我家有四口人。','Wǒ jiā yǒu sì kǒu rén.','Nhà tôi có bốn người.']},
+  {w:'口',p:'kǒu',t:'lượng từ',m:'lượng từ đếm số người trong gia đình',g:'fam',ex:['我家有五口人。','Wǒ jiā yǒu wǔ kǒu rén.','Nhà tôi có năm người.']},
+  {w:'和',p:'hé',t:'liên từ',m:'và, với',g:'fam',ex:['爸爸、妈妈和我','bàba, māma hé wǒ','bố, mẹ và tôi']},
+  {w:'照片',p:'zhàopiàn',t:'danh từ',m:'bức ảnh',g:'fam',img:'photo',ex:['这是我家的照片。','Zhè shì wǒ jiā de zhàopiàn.','Đây là ảnh gia đình tôi.']},
+  {w:'工作',p:'gōngzuò',t:'danh từ / động từ',m:'công việc; làm việc',g:'job',ex:['你爸爸做什么工作？','Nǐ bàba zuò shénme gōngzuò?','Bố bạn làm nghề gì?']},
+  {w:'老师',p:'lǎoshī',t:'danh từ',m:'giáo viên, thầy cô',g:'job',ex:['我爸爸是老师。','Wǒ bàba shì lǎoshī.','Bố tôi là giáo viên.']},
+  {w:'医生',p:'yīshēng',t:'danh từ',m:'bác sĩ',g:'job',img:'doctor',ex:['她是医生。','Tā shì yīshēng.','Cô ấy là bác sĩ.']},
+  {w:'律师',p:'lǜshī',t:'danh từ',m:'luật sư',g:'job',img:'lawyer',ex:['我哥哥是律师。','Wǒ gēge shì lǜshī.','Anh trai tôi là luật sư.']},
+  {w:'大学生',p:'dàxuéshēng',t:'danh từ',m:'sinh viên',g:'job',ex:['我是大学生。','Wǒ shì dàxuéshēng.','Tôi là sinh viên.']},
+  {w:'中学生',p:'zhōngxuéshēng',t:'danh từ',m:'học sinh trung học',g:'job',ex:['弟弟是中学生。','Dìdi shì zhōngxuéshēng.','Em trai là học sinh trung học.']},
+  {w:'多',p:'duō',t:'phó từ',m:'bao (nhiêu), mức độ bao nhiêu',g:'age',ex:['你多大？','Nǐ duō dà?','Bạn bao nhiêu tuổi?']},
+  {w:'大',p:'dà',t:'tính từ',m:'to, lớn; (tuổi) lớn',g:'age',ex:['你姐姐多大了？','Nǐ jiějie duō dà le?','Chị bạn bao nhiêu tuổi rồi?']},
+  {w:'岁',p:'suì',t:'lượng từ',m:'tuổi',g:'age',ex:['我今年二十岁。','Wǒ jīnnián èrshí suì.','Năm nay tôi 20 tuổi.']},
+  {w:'今年',p:'jīnnián',t:'danh từ',m:'năm nay',g:'age',img:'year',ex:['今年我十八岁。','Jīnnián wǒ shíbā suì.','Năm nay tôi 18 tuổi.']},
+  {w:'明年',p:'míngnián',t:'danh từ',m:'năm sau, sang năm',g:'age',ex:['明年我去中国。','Míngnián wǒ qù Zhōngguó.','Sang năm tôi đi Trung Quốc.']},
+  {w:'去年',p:'qùnián',t:'danh từ',m:'năm ngoái',g:'age',ex:['去年他是中学生。','Qùnián tā shì zhōngxuéshēng.','Năm ngoái cậu ấy là học sinh trung học.']},
+  {w:'谁',p:'shéi',t:'đại từ',m:'ai',g:'oth',ex:['他是谁？','Tā shì shéi?','Anh ấy là ai?']},
+  {w:'他们',p:'tāmen',t:'đại từ',m:'họ, bọn họ',g:'oth',img:'friends',ex:['他们是我的同学。','Tāmen shì wǒ de tóngxué.','Họ là bạn học của tôi.']},
+  {w:'们',p:'men',t:'hậu tố',m:'chỉ số nhiều (dùng cho người)',g:'oth',ex:['我们、你们、同学们','wǒmen, nǐmen, tóngxuémen','chúng tôi, các bạn, các bạn học']},
+  {w:'可爱',p:"kě'ài",t:'tính từ',m:'đáng yêu, dễ thương',g:'oth',img:'cute',ex:['这只小狗很可爱。','Zhè zhī xiǎo gǒu hěn kě\'ài.','Chú chó con này rất đáng yêu.']},
+  {w:'只',p:'zhī',t:'lượng từ',m:'con (dùng cho động vật)',g:'oth',ex:['我家有一只狗。','Wǒ jiā yǒu yì zhī gǒu.','Nhà tôi có một con chó.']},
+  {w:'狗',p:'gǒu',t:'danh từ',m:'con chó',g:'oth',img:'dog',ex:['那只狗是谁的？','Nà zhī gǒu shì shéi de?','Con chó kia là của ai?']},
+];
+
+function renderCards() {
+  $('#cards').innerHTML = V.map((v, i) => {
+    const chars = [...v.w];
+    const gifs = [...new Set(chars)].filter(c => IMG['st_' + c]);
+    return `<article class="card" data-g="${v.g}" data-i="${i}">
+      <div class="card-top">
+        <button class="cells" data-say="${esc(v.w)}" aria-label="Nghe ${esc(v.w)}">${chars.map(c => `<span class="cell">${c}</span>`).join('')}</button>
+        ${v.img && IMG[v.img] ? `<img class="thumb" src="${IMG[v.img]}" alt="${esc(v.m)}" loading="lazy">` : ''}
+      </div>
+      <div class="py">${esc(v.p)}<span class="pos">${esc(v.t)}</span></div>
+      <div class="mean">${esc(v.m)}</div>
+      <p class="ex"><span class="zh">${esc(v.ex[0])}</span>${sayBtn(v.ex[0])}<br>${esc(v.ex[1])}<br>${esc(v.ex[2])}</p>
+      <div class="actions">
+        <button class="btn" data-say="${esc(v.w)}">${SPK}Nghe</button>
+        ${gifs.length ? `<button class="btn tgl-stroke" aria-expanded="false">${PEN}Cách viết</button>` : ''}
+      </div>
+      ${gifs.length ? `<div class="strokes" hidden>${gifs.map(c => `<img alt="Thứ tự nét chữ ${c}" data-src="${IMG['st_' + c]}">`).join('')}</div>` : ''}
+    </article>`;
+  }).join('');
+}
+renderCards();
+
+$('#cards').addEventListener('click', e => {
+  const card = e.target.closest('.card'); if (!card) return;
+  const t = e.target.closest('.tgl-stroke');
+  if (t) {
+    const box = $('.strokes', card); const open = box.hidden;
+    if (open) $$('img', box).forEach(im => { if (!im.src) im.src = im.dataset.src; });
+    box.hidden = !open; t.setAttribute('aria-expanded', open);
+    return;
+  }
+  if (e.target.closest('button')) return;
+  if (document.body.classList.contains('hide-mean')) card.classList.toggle('shown');
+});
+$$('.filter').forEach(b => b.addEventListener('click', () => {
+  $$('.filter').forEach(x => x.setAttribute('aria-pressed', x === b));
+  $$('.card').forEach(c => c.hidden = !(b.dataset.g === 'all' || c.dataset.g === b.dataset.g));
+}));
+$('#hideMean').addEventListener('change', e => {
+  document.body.classList.toggle('hide-mean', e.target.checked);
+  $$('.card.shown').forEach(c => c.classList.remove('shown'));
+  if (e.target.checked) toast('Chạm vào một thẻ để hiện nghĩa.');
+});
+
+/* ---------- grammar ---------- */
+const G = [
+  {zh:'几口人', vi:'Hỏi số người trong gia đình', pat:'你家有几口人？ → 我家有 + số + 口人。',
+   ex:[['你家有几口人？','Nhà bạn có mấy người?'],['我家有四口人：爸爸、妈妈、姐姐和我。','Nhà tôi có bốn người: bố, mẹ, chị và tôi.']],
+   note:'<b>几</b> dùng để hỏi số lượng nhỏ (thường dưới 10). <b>口</b> là lượng từ riêng cho thành viên gia đình.'},
+  {zh:'多大', vi:'Hỏi tuổi', pat:'你今年多大(了)？ → 我今年 + số + 岁。',
+   ex:[['你今年多大了？','Năm nay bạn bao nhiêu tuổi rồi?'],['我今年二十一岁。','Năm nay tôi 21 tuổi.']],
+   note:'Hỏi trẻ nhỏ dùng <b>你几岁？</b> Hỏi người lớn tuổi lịch sự dùng <b>您多大年纪？</b>'},
+  {zh:'做什么工作', vi:'Hỏi nghề nghiệp', pat:'你(爸爸)做什么工作？ → 他是 + nghề nghiệp。',
+   ex:[['你妈妈做什么工作？','Mẹ bạn làm nghề gì?'],['我妈妈是英语老师。','Mẹ tôi là giáo viên tiếng Anh.']],
+   note:'Trả lời bằng câu chữ <b>是</b>: 我是医生 / 我不是律师。'},
+  {zh:'和', vi:'Nối các danh từ', pat:'A 和 B · A、B 和 C',
+   ex:[['爸爸和妈妈都是老师。','Bố và mẹ đều là giáo viên.'],['我喜欢中国菜、韩国菜和越南菜。','Tôi thích món Trung, món Hàn và món Việt.']],
+   note:'<b>和</b> chỉ nối danh từ, đại từ. Không dùng 和 để nối hai câu.'},
+  {zh:'们', vi:'Số nhiều của người', pat:'我们 · 你们 · 他们 · 同学们 · 老师们',
+   ex:[['同学们好！','Chào các em!'],['他们是我的朋友。','Họ là bạn của tôi.']],
+   note:'Khi đã có số đếm thì <b>không</b> thêm 们: nói 三个同学, không nói 三个同学们.'},
+  {zh:'都 · 又…又…', vi:'“Đều” và “vừa… vừa…”', pat:'A 和 B 都 + V/是… · 又 + Adj + 又 + Adj',
+   ex:[['他爸爸妈妈都是英语老师。','Bố mẹ anh ấy đều là giáo viên tiếng Anh.'],['那只小狗又可爱又漂亮。','Chú chó con đó vừa đáng yêu vừa xinh.']],
+   note:'<b>都</b> đứng sau chủ ngữ, trước động từ. Lượng từ cho động vật là <b>只</b>: 一只狗.'},
+];
+$('#gram').innerHTML = G.map(g => `<div class="g">
+  <h3><span class="zh">${g.zh}</span><span>${g.vi}</span></h3>
+  <div class="pattern">${esc(g.pat)}</div>
+  <ul>${g.ex.map(([z, v]) => `<li><span class="zh">${esc(z)}</span>${sayBtn(z)}<span class="vi">${esc(v)}</span></li>`).join('')}</ul>
+  <p class="note">${g.note}</p></div>`).join('');
+
+/* ---------- dialogue ---------- */
+const D = [
+  ['A','这是你家的照片吗？','Zhè shì nǐ jiā de zhàopiàn ma?','Đây là ảnh gia đình bạn à?'],
+  ['B','是。我家有五口人。','Shì. Wǒ jiā yǒu wǔ kǒu rén.','Đúng rồi. Nhà mình có năm người.'],
+  ['A','他是谁？','Tā shì shéi?','Anh này là ai?'],
+  ['B','他是我哥哥，他是律师。','Tā shì wǒ gēge, tā shì lǜshī.','Đó là anh trai mình, anh ấy là luật sư.'],
+  ['A','你哥哥今年多大？','Nǐ gēge jīnnián duō dà?','Anh bạn năm nay bao nhiêu tuổi?'],
+  ['B','他今年二十七岁。','Tā jīnnián èrshíqī suì.','Năm nay anh ấy 27 tuổi.'],
+  ['A','你爸爸妈妈做什么工作？','Nǐ bàba māma zuò shénme gōngzuò?','Bố mẹ bạn làm nghề gì?'],
+  ['B','我爸爸是医生，我妈妈是老师。','Wǒ bàba shì yīshēng, wǒ māma shì lǎoshī.','Bố mình là bác sĩ, mẹ mình là giáo viên.'],
+  ['A','这只小狗真可爱！','Zhè zhī xiǎo gǒu zhēn kě\'ài!','Chú chó con này dễ thương quá!'],
+  ['B','是我妹妹的狗。','Shì wǒ mèimei de gǒu.','Đó là chó của em gái mình.'],
+];
+$('#dlg').innerHTML = D.map(([w, z, p, v]) => `<div class="line ${w.toLowerCase()}">
+  <span class="who">${w}</span>
+  <div><div class="zh">${esc(z)}</div><div class="p">${esc(p)}</div><div class="vi">${esc(v)}</div></div>
+  ${sayBtn(z)}</div>`).join('');
+$('#playAll').addEventListener('click', () => {
+  if (!('speechSynthesis' in window)) { toast('Thiết bị này không hỗ trợ đọc tiếng Trung.'); return; }
+  speechSynthesis.cancel();
+  const lines = $$('#dlg .line');
+  D.forEach((d, i) => speechSynthesis.speak(utter(d[1],
+    () => { lines.forEach(l => l.classList.remove('now')); lines[i].classList.add('now'); },
+    () => { if (i === D.length - 1) lines[i].classList.remove('now'); })));
+});
+
+/* ---------- exercise helpers ---------- */
+function setScore(block, ok, total) {
+  const s = $('.score', block); s.textContent = `Đúng ${ok}/${total}`;
+  s.classList.toggle('full', ok === total);
+  toast(ok === total ? `Tuyệt vời! Đúng cả ${total} câu.` : `Em làm đúng ${ok}/${total} câu. Xem lại các câu tô đỏ nhé.`);
+}
+function clearMarks(block) {
+  $$('li', block).forEach(li => li.classList.remove('ok', 'bad'));
+  $$('.fb', block).forEach(f => f.innerHTML = '');
+  const s = $('.score', block); if (s) { s.textContent = ''; s.classList.remove('full'); }
+}
+const norm = s => s.replace(/[，。？！、,.?!\s]/g, '');
+
+/* Bài 1 */
+const E1 = [
+  ['A 中午 B 你 C 想吃 D？','什么','D'],
+  ['我家有五 A 口人。你家 B 有 C 口人 D？','几','C'],
+  ['我喜欢吃 A 中国菜 B、韩国菜 C 越南菜 D。','和','C'],
+  ['小明 A 不 B 知道 C 书店在 D。','哪儿','D'],
+  ['你 A 学习 B 汉语 C 学习英语 D？','还是','C'],
+  ['我 A 想 B 去 C 人民公园，D 走？','怎么','D'],
+  ['我们 A 去电影院 B 看电影，然后 C 去喝茶，D？','怎么样','D'],
+  ['今年 A 我弟弟21岁 B 了，你妹妹 C 大 D？','多','C'],
+  ['我这里 A 有牛奶和 B 咖啡，你要 C 个 D？','哪','C'],
+  ['A 你 B 做 C 什么 D 工作？','想','B'],
+];
+const ex1 = $('#ex1');
+function render1() {
+  $('.qs', ex1).innerHTML = E1.map(([s, w], i) => {
+    const parts = s.split(/\s*\b([ABCD])\b\s*/);
+    return `<li data-i="${i}"><div class="sent">${parts.map((p, k) => k % 2 ? `<button class="slot" data-l="${p}" aria-pressed="false">${p}</button>` : esc(p)).join('')}<span class="word">(${w})</span></div><div class="fb"></div></li>`;
+  }).join('');
+}
+render1();
+ex1.addEventListener('click', e => {
+  const b = e.target.closest('.slot'); if (!b) return;
+  $$('.slot', b.closest('li')).forEach(x => x.setAttribute('aria-pressed', x === b));
+});
+$('.chk', ex1).addEventListener('click', () => {
+  let ok = 0;
+  $$('.qs>li', ex1).forEach(li => {
+    const [s, w, a] = E1[li.dataset.i];
+    const pick = $('.slot[aria-pressed="true"]', li)?.dataset.l;
+    const right = pick === a; ok += right;
+    li.classList.toggle('ok', right); li.classList.toggle('bad', !right);
+    const full = s.split(/\s*\b([ABCD])\b\s*/).map((p, k) => k % 2 ? (p === a ? `<mark>${w}</mark>` : '') : esc(p)).join('');
+    $('.fb', li).innerHTML = (right ? '✓ ' : `✗ Đáp án: <b>${a}</b> · `) + `<span class="zh">${full}</span>`;
+  });
+  setScore(ex1, ok, E1.length);
+});
+$('.rst', ex1).addEventListener('click', () => { render1(); clearMarks(ex1); });
+
+/* Bài 2 */
+const W2a = ['什么','哪','哪儿','怎么','怎么样','几','多','还是','多少','为什么'];
+const W2b = ['了','吗','呢','吧'];
+const E2a = [
+  ['奶茶____钱一杯？',['多少']], ['你是____国人？',['哪']], ['你喜欢看韩国电影____中国电影？',['还是']],
+  ['你姐姐做____工作？',['什么']], ['这只狗是____的？',['哪儿']], ['中国银行在____？',['哪儿']],
+  ['你____喜欢看美国电影？',['为什么']], ['他家有____口人？',['几']], ['我不知道他去____。',['哪儿']],
+  ['你要____杯咖啡？',['几','多少']], ['他弟弟今年____大？',['多']], ['他们____去学校？',['怎么']],
+];
+const E2b = [
+  ['A：这是我们家的全家福。这是我爸爸，这是我妈妈。\nB：你妹妹____？\nA：她在我妈妈左边。',['呢']],
+  ['这儿有麻婆豆腐____？',['吗']], ['我叫高小明，他叫欧文。你____？',['呢']],
+  ['我喜欢喝奶茶，我们去喝奶茶____。',['吧']], ['人民博物馆到____吗？',['了']],
+  ['他是你的医生____？',['吗','吧']], ['A：那儿的菜又好吃又便宜。\nB：那好____，我们去那儿吃。',['吧']],
+  ['我吃饭____。',['了']],
+];
+const ex2 = $('#ex2');
+function render2() {
+  const sel = words => `<select class="blank" aria-label="Chọn từ"><option value="">…</option>${words.map(w => `<option>${w}</option>`).join('')}</select>`;
+  const row = (list, words, part) => list.map(([s], i) => `<li data-part="${part}" data-i="${i}"><div class="sent">${s.split('____').map(esc).join(sel(words))}</div><div class="fb"></div></li>`).join('');
+  $('.qs[data-part="a"]', ex2).innerHTML = row(E2a, W2a, 'a');
+  $('.qs[data-part="b"]', ex2).innerHTML = row(E2b, W2b, 'b');
+}
+render2();
+$('.chk', ex2).addEventListener('click', () => {
+  let ok = 0, total = 0;
+  $$('.qs>li', ex2).forEach(li => {
+    const [, ans] = (li.dataset.part === 'a' ? E2a : E2b)[li.dataset.i];
+    const v = $('select', li).value; const right = ans.includes(v);
+    ok += right; total++;
+    li.classList.toggle('ok', right); li.classList.toggle('bad', !right);
+    $('.fb', li).innerHTML = right ? '✓ Đúng' : `✗ Đáp án: <b class="zh">${ans.join(' / ')}</b>`;
+  });
+  setScore(ex2, ok, total);
+});
+$('.rst', ex2).addEventListener('click', () => { render2(); clearMarks(ex2); });
+
+/* Bài 3 */
+const E3 = [
+  [['你','做','爸爸','什么','工作'],['你爸爸做什么工作？']],
+  [['弟弟','的','大','你','了','多','今年'],['你的弟弟今年多大了？']],
+  [['你们','哪儿','吃','在','韩国菜'],['你们在哪儿吃韩国菜？']],
+  [['这','他','照片','的','家人','是','和','他'],['这是他和他家人的照片。']],
+  [['那','又','只','小狗','可爱','又','漂亮'],['那只小狗又可爱又漂亮。','那只小狗又漂亮又可爱。']],
+  [['我爸爸','医生','不是','律师','是','他'],['我爸爸是律师，他不是医生。','我爸爸不是医生，他是律师。']],
+  [['是','我','男朋友','他','的','姐姐'],['他是我姐姐的男朋友。']],
+  [['中学生','十五','今年','我','妹妹','岁','是'],['我妹妹今年十五岁，是中学生。']],
+  [['他','电影','喜欢','还是','美国','韩国','看'],['他喜欢看美国还是韩国电影？','他喜欢看韩国还是美国电影？']],
+  [['爸爸','他','妈妈','是','英语','都','老师'],['他爸爸妈妈都是英语老师。','他妈妈爸爸都是英语老师。']],
+];
+const ex3 = $('#ex3'); let pick3 = [];
+function render3() {
+  pick3 = E3.map(() => []);
+  $('.qs', ex3).innerHTML = E3.map(([toks], i) => `<li data-i="${i}"><div><div class="ansline"></div><div class="bank">${toks.map((t, k) => `<button class="tok" data-k="${k}">${t}</button>`).join('')}</div></div><div class="fb"></div></li>`).join('');
+}
+function draw3(li) {
+  const i = +li.dataset.i, toks = E3[i][0];
+  $('.ansline', li).innerHTML = pick3[i].map((k, n) => `<button class="tok" data-n="${n}">${toks[k]}</button>`).join('');
+  $$('.bank .tok', li).forEach(b => b.disabled = pick3[i].includes(+b.dataset.k));
+}
+render3();
+ex3.addEventListener('click', e => {
+  const b = e.target.closest('.tok'); if (!b) return;
+  const li = b.closest('li'), i = +li.dataset.i;
+  if (b.dataset.k !== undefined) pick3[i].push(+b.dataset.k); else pick3[i].splice(+b.dataset.n, 1);
+  li.classList.remove('ok', 'bad'); $('.fb', li).innerHTML = '';
+  draw3(li);
+});
+$('.chk', ex3).addEventListener('click', () => {
+  let ok = 0;
+  $$('.qs>li', ex3).forEach(li => {
+    const i = +li.dataset.i, [toks, ans] = E3[i];
+    const s = pick3[i].map(k => toks[k]).join('');
+    const right = pick3[i].length === toks.length && ans.some(a => norm(a) === s || norm(a).replace(/^你的/, '你') === s);
+    ok += right;
+    li.classList.toggle('ok', right); li.classList.toggle('bad', !right);
+    $('.fb', li).innerHTML = (right ? '✓ ' : '✗ Đáp án: ') + `<span class="zh">${ans.map(esc).join(' / ')}</span>`;
+  });
+  setScore(ex3, ok, E3.length);
+});
+$('.rst', ex3).addEventListener('click', () => { render3(); clearMarks(ex3); });
+
+/* Bài 4 */
+const E4 = [
+  {t:'我家有四口人，爸爸、妈妈、姐姐和我。我妈妈和我姐姐都是老师，爸爸是律师，我是学生。',
+   q:[['★ “我姐姐”做什么工作？','她是老师。']]},
+  {t:'我在中国有两个朋友，一个是男的、一个是女的。男的叫高小明，是中国人，他学习英语。女的叫卡玛拉，是南非人。她不是学生，她是律师。',
+   q:[['a. “我”有几个中国朋友？','我有一个中国朋友（高小明）。'],['b. “我”的朋友都是学生吗？','不是。卡玛拉不是学生，她是律师。']]},
+  {t:'我是大学生，今年二十岁。我在大学学习汉语。我家有四口人：爸爸、妈妈、妹妹和我。我爸爸是汉语老师、我妈妈是医生、我妹妹是小学生。',
+   q:[['★ “我”做什么工作？','我是大学生。']]},
+];
+$('.body', $('#ex4')).innerHTML = E4.map((p, i) => `<div class="passage">${i + 1}. ${esc(p.t)} ${sayBtn(p.t)}</div>` +
+  p.q.map(([q, a], k) => `<div class="q4"><div class="q">${esc(q)}</div><textarea id="q4-${i}-${k}" rows="1" aria-label="Câu trả lời"></textarea><div><button class="btn show-ans">Xem đáp án</button></div><div class="reveal" hidden>Gợi ý: <span class="zh">${esc(a)}</span></div></div>`).join('')).join('');
+$('#ex4').addEventListener('click', e => {
+  const b = e.target.closest('.show-ans'); if (!b) return;
+  const r = $('.reveal', b.closest('.q4')); r.hidden = !r.hidden;
+  b.textContent = r.hidden ? 'Xem đáp án' : 'Ẩn đáp án';
+});
+
+/* Bài 5 */
+const P5 = '我家有四口人：我爸爸、妈妈、哥哥和我。我今年二十一岁，是大学生。我在河内大学学习汉语。我很喜欢看美国电影和韩国电影。我爸爸是医生，他很忙。我妈妈是英语老师，她在高中教英语，她很漂亮。我哥哥今年二十七岁，他在一家中国公司工作。星期天我家常去饭店吃饭，然后去公园玩。我们都很开心。';
+const E5 = [
+  ['“我”家有几口人？',['三','六','四','五'],2],
+  ['“我”的哥哥今年多大？',['二十一岁','二十七岁','三十岁','二十九岁'],1],
+  ['“我”爸爸做什么工作？',['律师','老师','大学生','医生'],3],
+  ['我哥哥在哪儿工作？',['苹果公司','中国公司','越南公司','美国公司'],1],
+  ['我在河内大学学习什么？',['汉语','法语','英语','越南语'],0],
+];
+const ex5 = $('#ex5');
+$('.passage', ex5).innerHTML = esc(P5) + ' ' + sayBtn(P5);
+function render5() {
+  $('.qs', ex5).innerHTML = E5.map(([q, opts], i) => `<li data-i="${i}"><div><div class="sent">${esc(q)}</div><div class="opts">${opts.map((o, k) => `<label class="opt"><input type="radio" name="q5-${i}" value="${k}">${'ABCD'[k]}. ${o}</label>`).join('')}</div></div><div class="fb"></div></li>`).join('');
+}
+render5();
+$('.chk', ex5).addEventListener('click', () => {
+  let ok = 0;
+  $$('.qs>li', ex5).forEach(li => {
+    const [, opts, a] = E5[li.dataset.i];
+    const v = $('input:checked', li)?.value; const right = +v === a && v !== undefined;
+    ok += right;
+    li.classList.toggle('ok', right); li.classList.toggle('bad', !right);
+    $('.fb', li).innerHTML = right ? '✓ Đúng' : `✗ Đáp án: <b>${'ABCD'[a]}. <span class="zh">${opts[a]}</span></b>`;
+  });
+  setScore(ex5, ok, E5.length);
+});
+$('.rst', ex5).addEventListener('click', () => { render5(); clearMarks(ex5); });
+
+/* ---------- section tabs ---------- */
+const links = $$('nav.tabs a');
+const io = new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id));
+}), {rootMargin: '-45% 0px -50% 0px'});
+$$('main section').forEach(s => io.observe(s));
+if (location.hash && /^#[\w-]+$/.test(location.hash)) { const t = $(location.hash); if (t) t.scrollIntoView(); }
+</script>
